@@ -30,7 +30,13 @@ class Trie:
         return ord(ch)-ord('0')
 
 
-    def insert(self,key, docID):
+    def indexToChar(self, index):
+        if index >= 0:
+            return chr(ord('0') + index)
+        else:
+            return None
+
+    def insert(self, key, docID):
 
         # If not present, inserts key into trie
         # If the key is prefix of trie node,
@@ -47,9 +53,18 @@ class Trie:
 
         # mark last node as leaf
         pCrawl.count += 1
-        if len(pCrawl.documents) == 0 or pCrawl.documents[len(pCrawl.documents) - 1] != docID:
+
+        docChecker = False
+
+        for yy in pCrawl.documents:
+            if docID == yy:
+                docChecker = True
+
+
+        if not docChecker:
             pCrawl.docCount += 1
             pCrawl.documents += [docID]
+
         pCrawl.isEndOfWord = True
         return True
 
